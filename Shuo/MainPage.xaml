@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Shuo"
+             x:Class="Shuo.MainPage"
+             Title="Shuō">
+
+    <ContentPage.BindingContext>
+        <local:AppModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Margin="10">
+        <Button Text="{Binding ButtonLearnModeText}" 
+                Command="{Binding NextLearnModeCommand}" MaximumWidthRequest="230"/>
+        <Button Text="{Binding ButtonLearnVolumeText}" 
+                Command="{Binding NextLearnVolumeCommand}" MaximumWidthRequest="230"/>
+        <Button Text="Начать.&#10;Shuō!" FontSize="32" Command="{Binding StartLearningCommand}" Padding="40,30"/>
+    </VerticalStackLayout>
+</ContentPage>

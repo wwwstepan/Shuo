@@ -1,0 +1,23 @@
+#Ignore files build by Visual Studio
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.jfm
+*.suo
+*.bak
+*.cache
+*.ilk
+*.log
+*.svclog
+*.dbmdl
+storage.ide
+[Bb]in
+[Dd]ebug*/
+*.sbr
+obj/
+[Rr]elease*/
+*.Cache
