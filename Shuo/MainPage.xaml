@@ -9,9 +9,10 @@
         <local:AppModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Margin="10">
+    <VerticalStackLayout Margin="10" Background="#F5F5C0">
+        <Image Source="shuohua.JPG" HeightRequest="180" Aspect="AspectFit" />
         <Button Text="{Binding ButtonLearnModeText}" 
-                Command="{Binding NextLearnModeCommand}" MaximumWidthRequest="230"/>
+                Command="{Binding NextLearnModeCommand}" MaximumWidthRequest="230" MaximumHeightRequest="100" />
         <Button Text="{Binding ButtonLearnVolumeText}" 
                 Command="{Binding NextLearnVolumeCommand}" MaximumWidthRequest="230"/>
         <Button Text="Начать.&#10;Shuō!" FontSize="32" Command="{Binding StartLearningCommand}" Padding="40,30"/>

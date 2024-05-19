@@ -31,6 +31,8 @@
 
     <Color x:Key="MagentaLight">#8b6aa8</Color>
     <Color x:Key="MagentaDark">#402955</Color>
+    <Color x:Key="DarkViolet">DarkViolet</Color>
+    <Color x:Key="Violet">Violet</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

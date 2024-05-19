@@ -1,11 +1,5 @@
 ﻿namespace Shuo;
 
-public enum AppState
-{
-    Customize,
-    Learn,
-}
-
 public enum LearnMode
 {
     RussianFirst,

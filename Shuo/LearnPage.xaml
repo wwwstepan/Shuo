@@ -8,19 +8,30 @@
     <ContentPage.BindingContext>
         <local:LearnModel />
     </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <local:IndexFrom1Converter x:Key="IndexFrom1Converter"/>
+    </ContentPage.Resources>
     
     <VerticalStackLayout>
         <Label Text="{Binding LearnTime}" FontSize="22" 
                Margin="10" TextColor="CornflowerBlue" />
         <HorizontalStackLayout>
-            <Label Text="{Binding CurrenWordIndex}" FontSize="22" 
-                   Margin="10" TextColor="LightGray" />
-            <Label Text="{Binding CurrenWord}" FontSize="40" 
-                   Margin="15" MaximumWidthRequest="250" MaxLines="3" />
+            <Label Text="{Binding CurrenWordIndex, Converter={StaticResource IndexFrom1Converter}}"
+                   FontSize="22" Margin="10" TextColor="LightGray" />
+            <VerticalStackLayout Margin="10">
+                <Label Text="{Binding CurrenWord}" FontSize="36" 
+                       Margin="5" MaximumWidthRequest="270" MaxLines="3"
+                       MaximumHeightRequest="100" />
+                <Label Text="{Binding CurrenTranslate}" FontSize="32" 
+                       TextColor="{AppThemeBinding Light={StaticResource DarkViolet}, Dark={StaticResource Violet}}"
+                       Margin="5" MaximumWidthRequest="270" MaxLines="3" IsVisible="{Binding ShowTranslate}" 
+                       MaximumHeightRequest="100" />
+            </VerticalStackLayout>
         </HorizontalStackLayout>
         <Button Text="{Binding NextButtonText}" IsVisible="{Binding NextButtonIsVisible}"
                 Command="{Binding NextWordCommand}" Padding="40,30"/>
         <Button Text="Завершить" Command="{Binding StopLearningCommand}" 
-                MaximumWidthRequest="175" Padding="30,5"/>
+                MaximumWidthRequest="200" Padding="30,5"/>
     </VerticalStackLayout>
 </ContentPage>

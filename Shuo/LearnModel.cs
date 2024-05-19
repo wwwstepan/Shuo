@@ -12,7 +12,8 @@ public partial class LearnModel : ObservableObject
     private readonly Random rnd = new();
     private readonly Timer timer;
 
-    private bool isFirstWord;
+    [ObservableProperty]
+    private bool _showTranslate;
 
     [ObservableProperty]
     private int _currenWordIndex;
@@ -23,9 +24,13 @@ public partial class LearnModel : ObservableObject
     [ObservableProperty]
     private string _currenWord = string.Empty;
 
-    public string NextButtonText => isFirstWord ? "Показать\nперевод" : "Следующее\nслово";
+    [ObservableProperty]
+    private string _currenTranslate = string.Empty;
 
-    public bool NextButtonIsVisible => !(CurrenWordIndex >= learnWords.Count - 1 && !isFirstWord);
+    public string NextButtonText => ShowTranslate ? "Следующее\nслово" : "Показать\nперевод";
+
+    [ObservableProperty]
+    private bool _nextButtonIsVisible;
 
     public LearnModel()
     {
@@ -34,34 +39,26 @@ public partial class LearnModel : ObservableObject
         StartLearning();
     }
 
-    private void TimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {
-        LearnTime++;
-    }
-
-    public async Task GoHome() => await Shell.Current.GoToAsync("../../route");
-
     [RelayCommand]
     public void NextWord()
     {
-        isFirstWord = !isFirstWord;
-
-        CurrenWord = LearnMode == LearnMode.ChinaFirst
-            ? (isFirstWord
-                ? learnWords[CurrenWordIndex].Ch
-                : learnWords[CurrenWordIndex].Ru)
-            : (isFirstWord
-                ? learnWords[CurrenWordIndex].Ru
-                : learnWords[CurrenWordIndex].Ch);
-
-        if (!isFirstWord)
-            CurrenWordIndex++;
-
-        if (CurrenWordIndex >= learnWords.Count - 1 && !isFirstWord)
+        if (!ShowTranslate && CurrenWordIndex >= learnWords.Count - 1)
+        {
             timer.Stop();
+            ShowTranslate = true;
+            NextButtonIsVisible = false;
+            return;
+        }
+
+        if (ShowTranslate)
+        {
+            CurrenWordIndex++;
+            GetWord();
+        }
+
+        ShowTranslate = !ShowTranslate;
 
         OnPropertyChanged(nameof(NextButtonText));
-        OnPropertyChanged(nameof(NextButtonIsVisible));
     }
 
     private void StartLearning()
@@ -71,9 +68,10 @@ public partial class LearnModel : ObservableObject
         LearnMode = Global.LearnMode;
         LearnTime = 0;
         CurrenWordIndex = 0;
-        isFirstWord = false;
+        NextButtonIsVisible = true;
+        ShowTranslate = false;
 
-        NextWord();
+        GetWord();
         
         timer.Start();
     }
@@ -84,6 +82,27 @@ public partial class LearnModel : ObservableObject
         timer.Stop();
         await GoHome();
     }
+
+    private void GetWord()
+    {
+        if (LearnMode == LearnMode.ChinaFirst)
+        {
+            CurrenWord = learnWords[CurrenWordIndex].Ch;
+            CurrenTranslate = learnWords[CurrenWordIndex].Ru;
+        }
+        else
+        {
+            CurrenWord = learnWords[CurrenWordIndex].Ru;
+            CurrenTranslate = learnWords[CurrenWordIndex].Ch;
+        }
+    }
+
+    private void TimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        LearnTime++;
+    }
+
+    public async Task GoHome() => await Shell.Current.GoToAsync("../../route");
 
     private void SetLearnWords()
     {

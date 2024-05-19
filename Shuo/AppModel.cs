@@ -1,15 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Reflection;
-using System.Text.Json;
 
 namespace Shuo;
 
 public partial class AppModel : ObservableObject
 {
-    [ObservableProperty]
-    private AppState _appState;
-
     private LearnMode _learnMode;
     public LearnMode LearnMode
     {
@@ -31,13 +26,14 @@ public partial class AppModel : ObservableObject
         }
     }
 
-    public string ButtonLearnModeText => LearnMode == LearnMode.ChinaFirst ? "Китайский\n->\nРусский" : "Русский\n->\nКитайский";
+    public string ButtonLearnModeText => LearnMode == LearnMode.ChinaFirst
+        ? "Китайский\n->\nРусский" : "Русский\n==>\nКитайский";
+
     public string ButtonLearnVolumeText => $"{(int)LearnVolume} слов";
 
     public AppModel()
     {
-        AppState = AppState.Customize;
-        LearnMode = LearnMode.RussianFirst;
+        LearnMode = LearnMode.ChinaFirst;
         LearnVolume = LearnVolume.Words10;
     }
 
@@ -46,7 +42,6 @@ public partial class AppModel : ObservableObject
     {
         Global.LearnMode = LearnMode;
         Global.QuantityWords = (int)LearnVolume;
-        AppState = AppState.Learn;
         await Shell.Current.GoToAsync(nameof(LearnPage));
     }
 
@@ -55,9 +50,4 @@ public partial class AppModel : ObservableObject
 
     [RelayCommand]
     public void NextLearnVolume() => LearnVolume = LearnVolume.NextEnum();
-
-    public class WordsJsonModel
-    {
-        public List<List<string>>? Words { get; set; }
-    }
 }
