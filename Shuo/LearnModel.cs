@@ -27,7 +27,7 @@ public partial class LearnModel : ObservableObject
     [ObservableProperty]
     private string _currenTranslate = string.Empty;
 
-    public string NextButtonText => ShowTranslate ? "Следующее\nслово" : "Показать\nперевод";
+    public string NextButtonText => ShowTranslate ? "Следующее слово" : "Показать перевод";
 
     [ObservableProperty]
     private bool _nextButtonIsVisible;

@@ -11,10 +11,13 @@
 
     <VerticalStackLayout Margin="10" Background="#F5F5C0">
         <Image Source="shuohua.JPG" HeightRequest="180" Aspect="AspectFit" />
-        <Button Text="{Binding ButtonLearnModeText}" 
-                Command="{Binding NextLearnModeCommand}" MaximumWidthRequest="230" MaximumHeightRequest="100" />
-        <Button Text="{Binding ButtonLearnVolumeText}" 
-                Command="{Binding NextLearnVolumeCommand}" MaximumWidthRequest="230"/>
-        <Button Text="Начать.&#10;Shuō!" FontSize="32" Command="{Binding StartLearningCommand}" Padding="40,30"/>
+        <Button Text="{Binding ButtonLearnModeText}" FontSize="26"
+                Command="{Binding NextLearnModeCommand}" 
+                Padding="0,30" Margin="10,10" />
+        <Button Text="{Binding ButtonLearnVolumeText}" FontSize="26"
+                Command="{Binding NextLearnVolumeCommand}" 
+                Padding="0,30" Margin="40,10" />
+        <Button Text="Начать" FontSize="32" Command="{Binding StartLearningCommand}"
+                Padding="0,30" Margin="40,10,40,20" />
     </VerticalStackLayout>
 </ContentPage>

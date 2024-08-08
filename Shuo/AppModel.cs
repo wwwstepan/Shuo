@@ -27,7 +27,7 @@ public partial class AppModel : ObservableObject
     }
 
     public string ButtonLearnModeText => LearnMode == LearnMode.ChinaFirst
-        ? "Китайский\n->\nРусский" : "Русский\n==>\nКитайский";
+        ? "Китайский → Русский" : "Русский → Китайский";
 
     public string ButtonLearnVolumeText => $"{(int)LearnVolume} слов";
 

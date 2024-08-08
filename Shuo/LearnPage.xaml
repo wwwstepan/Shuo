@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Shuo"
              x:Class="Shuo.LearnPage"
-             Title="LearnPage">
+             Title="{Binding CurrenWordIndex, Converter={StaticResource IndexFrom1Converter}}">
     
     <ContentPage.BindingContext>
         <local:LearnModel />
@@ -13,25 +13,25 @@
         <local:IndexFrom1Converter x:Key="IndexFrom1Converter"/>
     </ContentPage.Resources>
     
-    <VerticalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,*">
         <Label Text="{Binding LearnTime}" FontSize="22" 
                Margin="10" TextColor="CornflowerBlue" />
-        <HorizontalStackLayout>
-            <Label Text="{Binding CurrenWordIndex, Converter={StaticResource IndexFrom1Converter}}"
-                   FontSize="22" Margin="10" TextColor="LightGray" />
-            <VerticalStackLayout Margin="10">
-                <Label Text="{Binding CurrenWord}" FontSize="36" 
-                       Margin="5" MaximumWidthRequest="270" MaxLines="3"
-                       MaximumHeightRequest="100" />
-                <Label Text="{Binding CurrenTranslate}" FontSize="32" 
-                       TextColor="{AppThemeBinding Light={StaticResource DarkViolet}, Dark={StaticResource Violet}}"
-                       Margin="5" MaximumWidthRequest="270" MaxLines="3" IsVisible="{Binding ShowTranslate}" 
-                       MaximumHeightRequest="100" />
-            </VerticalStackLayout>
-        </HorizontalStackLayout>
-        <Button Text="{Binding NextButtonText}" IsVisible="{Binding NextButtonIsVisible}"
-                Command="{Binding NextWordCommand}" Padding="40,30"/>
-        <Button Text="Завершить" Command="{Binding StopLearningCommand}" 
-                MaximumWidthRequest="200" Padding="30,5"/>
-    </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1" Margin="5">
+            <Grid RowDefinitions="*,*">
+                <Label Text="{Binding CurrenWord}" FontSize="40" Margin="5" LineBreakMode="WordWrap" />
+                <Label Grid.Row="1" Text="{Binding CurrenTranslate}" FontSize="40" 
+                        TextColor="{AppThemeBinding Light={StaticResource DarkViolet}, Dark={StaticResource Violet}}"
+                        LineBreakMode="WordWrap"
+                        Margin="5" IsVisible="{Binding ShowTranslate}" 
+                        />
+            </Grid>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2" VerticalOptions="End">
+            <Button Text="{Binding NextButtonText}" IsVisible="{Binding NextButtonIsVisible}"
+                    Command="{Binding NextWordCommand}" 
+                    FontSize="24" Padding="0,30" Margin="20,10" />
+            <Button Text="Завершить" Command="{Binding StopLearningCommand}" 
+                    FontSize="24" Padding="0,30" Margin="40,10,40,20" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>
