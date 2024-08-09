@@ -19,6 +19,9 @@ public partial class LearnModel : ObservableObject
     private int _currenWordIndex;
 
     [ObservableProperty]
+    private int _totalWords;
+
+    [ObservableProperty]
     private int _learnTime;
 
     [ObservableProperty]
@@ -42,7 +45,7 @@ public partial class LearnModel : ObservableObject
     [RelayCommand]
     public void NextWord()
     {
-        if (!ShowTranslate && CurrenWordIndex >= learnWords.Count - 1)
+        if (!ShowTranslate && CurrenWordIndex >= TotalWords)
         {
             timer.Stop();
             ShowTranslate = true;
@@ -67,7 +70,7 @@ public partial class LearnModel : ObservableObject
 
         LearnMode = Global.LearnMode;
         LearnTime = 0;
-        CurrenWordIndex = 0;
+        CurrenWordIndex = 1;
         NextButtonIsVisible = true;
         ShowTranslate = false;
 
@@ -87,13 +90,13 @@ public partial class LearnModel : ObservableObject
     {
         if (LearnMode == LearnMode.ChinaFirst)
         {
-            CurrenWord = learnWords[CurrenWordIndex].Ch;
-            CurrenTranslate = learnWords[CurrenWordIndex].Ru;
+            CurrenWord = learnWords[CurrenWordIndex - 1].Ch;
+            CurrenTranslate = learnWords[CurrenWordIndex - 1].Ru;
         }
         else
         {
-            CurrenWord = learnWords[CurrenWordIndex].Ru;
-            CurrenTranslate = learnWords[CurrenWordIndex].Ch;
+            CurrenWord = learnWords[CurrenWordIndex - 1].Ru;
+            CurrenTranslate = learnWords[CurrenWordIndex - 1].Ch;
         }
     }
 
@@ -106,17 +109,19 @@ public partial class LearnModel : ObservableObject
 
     private void SetLearnWords()
     {
-        if (Global.AllWords.Count < Global.QuantityWords)
+        TotalWords = Global.QuantityWords;
+
+        if (Global.AllWords.Count < TotalWords)
             throw new Exception("В словаре слишком мало слов");
 
-        var idxs = new int[Global.QuantityWords];
+        var idxs = new int[TotalWords];
 
-        if (learnWords is not null && learnWords.Capacity == Global.QuantityWords)
+        if (learnWords is not null && learnWords.Capacity == TotalWords)
             learnWords.Clear();
         else
-            learnWords = new List<LearnWord>(Global.QuantityWords);
+            learnWords = new List<LearnWord>(TotalWords);
 
-        for (int i = 0; i < Global.QuantityWords; i++)
+        for (int i = 0; i < TotalWords; i++)
         {
             int idx;
             do
